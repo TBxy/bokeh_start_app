@@ -61,3 +61,11 @@ def about():
     """About page."""
     form = LoginForm(request.form)
     return render_template('public/about.html', form=form)
+
+@blueprint.route('/plot1/')
+def bokeh_plot():
+    """About page."""
+    form = LoginForm(request.form)
+    plot = {}
+    plot["plot1"] = "<p> here <b>could</b> be a bokeh plot </p>"
+    return render_template('public/plot_demo.html', form=form, plot=plot)

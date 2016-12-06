@@ -5,7 +5,10 @@ usage="% $(basename "$0")(1)
 
 \`$(basename "$0") [-h] [-d db cmd] [-f flask cmd] \`
 
-Runs the webserver
+Runs the web server.
+By default it activates the virtual environment and starts the server:
+>>> . venv/bin/activate
+>>> flask run
 
 **where:**
 
@@ -76,8 +79,10 @@ echo "Activate virtual environment 'venv'"
 . venv/bin/activate
 
 if [ $INSTALL_REQ -gt 0 ]; then
-    echo "Install requirements."
+    echo "Install requirements (python)."
     pip install -r requirements/dev.txt
+    echo "Install requirements (javascript)."
+    bower install
 fi
 
 if [ ! $DB_CMD = "" ]; then
@@ -92,6 +97,12 @@ if [ ! $FLASK_CMD = "" ]; then
     exit
 fi
 
+# run after ^C -> save this command for as exit cmd
+trap "echo \"\nShuting down, deactivate 'venv'.\n\n\"; deactivate" INT
+
+echo "Start bokeh server"
+echo "Run: bokeh serve --allow-websocket-origin=localhost:8000 &"
+bokeh serve --allow-websocket-origin=localhost:8000 &
+
 echo "Run: flask run"
 flask run
-
