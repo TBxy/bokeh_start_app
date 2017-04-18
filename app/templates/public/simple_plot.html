@@ -1,0 +1,21 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="body-content">
+    <div class="row">
+        {% for plot in plots %}
+            {% if "title" in plot %}
+                <h3>{{plot["title"]}}</h3>
+            {% endif %}
+            {% if "plot" in plot and "script" in plot %}
+                {{plot["script"] | safe}}
+                <div id="bokeh-plot-{{plot['id']}}">
+                    {{plot["plot"] | safe}}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

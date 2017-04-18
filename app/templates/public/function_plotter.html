@@ -1,0 +1,58 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <div class="row">
+      <form class="col s12" action="" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="row">
+        <div class="input-field col s12">
+            <!--<i class="material-icons prefix">account_circle</i>-->
+            <!--<i class="fa fa-superscript prefix"></i>-->
+          <input id="formula_in" name="formula" type="text" class="validate" required>
+          <label for="formula_in">Formula (eg. sin(x)^2)</label>
+        </div>
+        <div class="input-field col s3">
+            <!--<i class="material-icons prefix">phone</i>-->
+            <!--<i class="fa fa-angle-left prefix"></i>-->
+          <input id="from_in" name="start" type="number" class="validate" value="-10">
+          <label for="from_in">From</label>
+        </div>
+        <div class="input-field col s3">
+            <!--<i class="material-icons prefix">phone</i>-->
+            <!--<i class="fa fa-angle-right prefix"></i>-->
+          <input id="to_in" name="end" type="number" class="validate" value="10">
+          <label for="to_in">To</label>
+        </div>
+        <div class="input-field col s3">
+            <!--<i class="material-icons prefix">phone</i>-->
+            <!--<i class="fa fa-ellipsis-h prefix"></i>-->
+          <input id="points_in" name="points" type="number" min="1" max="100000" step="1" value="1000" class="validate">
+          <label for="points_in">Points</label>
+        </div>
+        <div class="input-field col s3">
+            <button class="btn waves-effect waves-light" type="submit" name="fplot">Update
+                <!--<i class="material-icons right"> send</i>-->
+                <i class="fa fa-refresh"></i>
+            </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<div>
+    <p> Session-ID: <i>{{session_id}}</i></p>
+    <p> <a target=_blank href="http://localhost:5000/api/v1/plots/function-plotter/{{session_id}}/cos(x)"> update plot </a>
+</div>
+<div class="body-content">
+    <div class="row">
+      <h3>Population Plot</h3>
+      <div id="bokeh-population-plot">
+            {{plot["plot1"] | safe}}
+      </div>
+
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,15 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="body-content">
+    <div class="row">
+      <h3>Population Plot</h3>
+      <div id="bokeh-population-plot">
+            {{plot["plot1"] | safe}}
+      </div>
+
+    </div>
+</div>
+{% endblock %}
+

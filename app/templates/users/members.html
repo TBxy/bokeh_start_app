@@ -1,0 +1,14 @@
+
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Welcome {{ session.username }}</h1>
+    <h3>This is the members-only page.</h3>
+    <p> Your permissions are: 
+        {% for p in current_user.permissions %}
+        <div class="chip">
+            <i>{{p}}</i> 
+        </div>
+        {% endfor %} 
+    </p>
+{% endblock %}
+

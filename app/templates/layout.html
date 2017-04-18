@@ -1,0 +1,74 @@
+
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+  <title>{% block page_title %}
+  
+    Bokeh Start App
+  
+    {% endblock %}
+  </title>
+  <meta name="description" content="{% block meta_description %}{% endblock %}">
+  <meta name="author" content="{% block meta_author %}{% endblock %}">
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='libs/font-awesome/css/font-awesome.min.css') }}">
+  {% assets "css_all" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+  {% block css %}{% endblock %}
+
+    <script type="text/javascript">
+        console.log("Load JavaScript settings")
+        window._bokeh_is_loading = 0
+    </script>
+</head>
+<body class="{% block body_class %}{% endblock %}"
+onload="
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        Materialize.toast('<i class=&#34;fa fa-{{ category }}&#34;></i> &nbsp;&nbsp;{{ message }}', 4000)
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
+    "
+>
+{% block body %}
+{% with form=form  %}
+{% include "nav.html" %}
+{% endwith %}
+
+<header>{% block header %}{% endblock %}</header>
+
+  <div class="{% block content_class %}container{% endblock content_class %}">
+
+
+    {% block content %}{% endblock %}
+
+
+  </div><!-- end container -->
+
+
+
+{% include "footer.html" %}
+
+<!-- JavaScript at the bottom for fast page loading -->
+{% assets "js_all" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% block js %}{% endblock %}
+<!-- end scripts -->
+{% endblock %}
+</body>
+</html>
+
