@@ -4,9 +4,9 @@
 import pytest
 from webtest import TestApp
 
-from bokeh_start_app.app import create_app
-from bokeh_start_app.database import db as _db
-from bokeh_start_app.settings import TestConfig
+from .app import create_app
+from .database import db as _db
+from .settings import TestConfig
 
 from .factories import UserFactory
 

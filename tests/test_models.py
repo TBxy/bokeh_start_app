@@ -4,7 +4,7 @@ import datetime as dt
 
 import pytest
 
-from bokeh_start_app.user.models import Role, User
+from .user.models import Role, User
 
 from .factories import UserFactory
 

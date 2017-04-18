@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test configs."""
-from bokeh_start_app.app import create_app
-from bokeh_start_app.settings import DevConfig, ProdConfig
+from .app import create_app
+from .settings import DevConfig, ProdConfig
 
 
 def test_production_config():

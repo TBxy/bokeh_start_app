@@ -50,4 +50,30 @@ env/
 dev.db
 
 # JS libs
-bokeh_start_app/static/libs
+app/static/libs
+
+
+app/static/css/bokeh-widgets.css
+app/static/css/bokeh-widgets.css.map
+app/static/css/bokeh-widgets.min.css
+app/static/css/bokeh-widgets.min.css.map
+app/static/css/bokeh.css
+app/static/css/bokeh.css.map
+app/static/css/bokeh.min.css
+app/static/css/bokeh.min.css.map
+app/static/css/sass.css
+app/static/fonts/
+app/static/js/bokeh-api.js
+app/static/js/bokeh-api.js.map
+app/static/js/bokeh-api.min.js
+app/static/js/bokeh-widgets.js
+app/static/js/bokeh-widgets.js.map
+app/static/js/bokeh-widgets.min.js
+app/static/js/bokeh.js
+app/static/js/bokeh.js.map
+app/static/js/bokeh.min.js
+app/static/js/compile.js
+app/static/js/modules.json
+
+migrations
+

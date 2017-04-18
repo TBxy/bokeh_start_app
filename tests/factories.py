@@ -3,8 +3,8 @@
 from factory import PostGenerationMethodCall, Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
-from bokeh_start_app.database import db
-from bokeh_start_app.user.models import User
+from .database import db
+from .user.models import User
 
 
 class BaseFactory(SQLAlchemyModelFactory):

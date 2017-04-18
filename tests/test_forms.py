@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Test forms."""
 
-from bokeh_start_app.public.forms import LoginForm
-from bokeh_start_app.user.forms import RegisterForm
+from .public.forms import LoginForm
+from .user.forms import RegisterForm
 
 
 class TestRegisterForm:

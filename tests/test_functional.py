@@ -5,7 +5,7 @@ See: http://webtest.readthedocs.org/
 """
 from flask import url_for
 
-from bokeh_start_app.user.models import User
+from .user.models import User
 
 from .factories import UserFactory
 
