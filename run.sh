@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 usage="% $(basename "$0")(1)
 % Tobias Burgherr
 % November 2016
@@ -18,8 +18,14 @@ Where:
       ~ init
       ~ migrate
       ~ upgrade
-  -f  flask command (see --help)
+  -f  run a flask command (see -f --help)
   -r  install requirements
+  -p  productive run (FLASK_DEBUG=0)
+  -t  run flask test
+      
+Activate Virtual Environment
+
+If you source the script (source run.sh) the virtual environment is activated.
 
 
 Initialization:
@@ -29,20 +35,26 @@ generates the database.
 By default two users are created, admin and guest. The passwords are the usernames.
 It is highly recommend to change them (with the admin user).
     "
-
 # Variable
 DB_CMD=""
 FLASK_CMD=""
 INSTALL_REQ=0
 INIT=0
+DBG=1
+VENV=0
+TEST=0
 # Files
 
 # Options
-while getopts ':d:f:rhHi' option; do
+while getopts ':d:f:rtphHi' option; do
   case "$option" in
     d) DB_CMD=$OPTARG
        ;;
     f) FLASK_CMD=$OPTARG
+       ;;
+    p) DBG=0
+       ;;
+    t) FLASK_CMD=test
        ;;
     r) INSTALL_REQ=1
        ;;
@@ -69,6 +81,9 @@ done
 shift $((OPTIND - 1))
 
 
+if [[ "${BASH_SOURCE}" != "${0}" ]]; then
+    VENV=1
+fi
 echo
 
 # First set correct settings variable
@@ -81,7 +96,7 @@ echo "Main directory: $MAIN_DIR"
 cd $MAIN_DIR
 
 export FLASK_APP=autoapp.py
-export FLASK_DEBUG=1
+export FLASK_DEBUG=$DBG
 export BOKEH_SECRET_KEY=$(date +%s | sha256sum | base64 | head -c 32 ; echo)
 #export BOKEH_SIGN_SESSIONS=true
 
@@ -98,7 +113,11 @@ echo "Activate virtual environment 'venv'"
 
 if [ $INSTALL_REQ -gt 0 ]; then
     echo "Install requirements (python)."
-    pip install -r requirements/dev.txt
+    if [ $DBG -gt 0 ]; then
+        pip install -r requirements/dev.txt
+    else
+        pip install -r requirements/prod
+    fi
     echo "Install requirements (javascript)."
     bower install
     
@@ -135,16 +154,26 @@ if [ $INIT -gt 0 ]; then
     flask insertdb
 fi
 
-# run after ^C -> save this command for as exit cmd
-trap "echo \"\nShuting down, deactivate 'venv'.\n\n\"; deactivate; pkill bokeh" INT
+if [ $VENV -gt 0 ]; then
+    echo "Run 'deactivate' in order to deactive the virtual python environment"
+    echo
+    echo "Run the following to start bokeh"
+    echo "bokeh serve --allow-websocket-origin=*:5000  ./app/bokeh_apps/* &"
+    echo "                  to start flask"
+    echo "flask run &"
+    echo ""
+else
+    # run after ^C -> save this command for as exit cmd
+    trap "echo \"\nShuting down, deactivate 'venv'.\n\n\"; deactivate; pkill bokeh" INT
 
-echo "Start bokeh server"
-echo "Run: bokeh serve --allow-websocket-origin=*:5000 ./app/bokeh_apps/* &"
-# --session-ids=external-signed    # does not work yet
-bokeh serve --allow-websocket-origin=*:5000  ./app/bokeh_apps/* &
+    echo "Start bokeh server"
+    echo "Run: bokeh serve --allow-websocket-origin=*:5000 ./app/bokeh_apps/* &"
+    # --session-ids=external-signed    # does not work yet
+    bokeh serve --allow-websocket-origin=*:5000  ./app/bokeh_apps/* &
 
-echo "Run: flask run"
-if [ $INIT -gt 0 ]; then
-    echo "     You can login with admin:admin or guets:guest."
+    echo "Run: flask run"
+    if [ $INIT -gt 0 ]; then
+        echo "     You can login with admin:admin or guets:guest."
+    fi
+    flask run
 fi
-flask run

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test configs."""
-from .app import create_app
-from .settings import DevConfig, ProdConfig
+from app.app import create_app
+from app.settings import DevConfig, ProdConfig
 
 
 def test_production_config():
