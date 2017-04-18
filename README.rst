@@ -8,43 +8,27 @@ A start app for bokeh plots.
 Quickstart
 ----------
 
-First, set your app's secret key as an environment variable. For example,
-add the following to ``.bashrc`` or ``.bash_profile``.
+The first time you have to initialize the project, just run:
+
 
 .. code-block:: bash
+    ./run.sh -i
 
-    export BOKEH_START_APP_SECRET='something-really-secret'
+The script installs all requirements (python and javascript), create the
+database and adds an admin and guest user.
 
-Before running shell commands, set the ``FLASK_APP`` and ``FLASK_DEBUG``
-environment variables ::
+All the python packages are installed in an virtual environment. You can
+access the environemnt if you just rouce the ``run.sh`` script: ::
 
-    export FLASK_APP=/path/to/autoapp.py
-    export FLASK_DEBUG=1
+    . run.sh
 
-Then run the following commands to bootstrap your environment ::
-
-    git clone https://github.com/TBxy/bokeh_start_app
-    cd bokeh_start_app
-    pip install -r requirements/dev.txt
-    bower install
-    flask run
-
-You will see a pretty welcome screen.
-
-Once you have installed your DBMS, run the following to create your app's
-database tables and perform the initial migration ::
-
-    flask db init
-    flask db migrate
-    flask db upgrade
-    flask run
-
+Check out ``run.sh -h`` for more information.
 
 Deployment
 ----------
 
-In your production environment, make sure the ``FLASK_DEBUG`` environment
-variable is unset or is set to ``0``, so that ``ProdConfig`` is used.
+In your production environment, make sure the to start the run script with
+the ``-p`` option.
 
 
 Shell
@@ -52,6 +36,7 @@ Shell
 
 To open the interactive shell, run ::
 
+    . run.sh
     flask shell
 
 By default, you will have access to the flask ``app``.
@@ -62,7 +47,7 @@ Running Tests
 
 To run all tests, run ::
 
-    flask test
+    ./run.sh -t
 
 
 Migrations
@@ -70,6 +55,7 @@ Migrations
 
 Whenever a database migration needs to be made. Run the following commands ::
 
+    . run.sh
     flask db migrate
 
 This will generate a new migration script. Then run ::
