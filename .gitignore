@@ -76,4 +76,5 @@ app/static/js/compile.js
 app/static/js/modules.json
 
 migrations
+.cache
 
