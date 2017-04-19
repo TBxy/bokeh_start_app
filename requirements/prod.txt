@@ -45,6 +45,6 @@ Flask-DebugToolbar==0.10.0
 
 # Bokeh plots
 numpy
-bokeh>=0.12
+bokeh>=0.12.5
 pandas
 

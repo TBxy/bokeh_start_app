@@ -3,7 +3,8 @@ from __future__ import print_function
 from bokeh.io import curdoc
 
 # import all custom classes
-from bokeh.plotting import FunctionPlotter
+#from bokeh.plotting import FunctionPlotter
+from function_plotter import FunctionPlotter
 #import function_plotter as fp
 #print(__file__)
 #import imp

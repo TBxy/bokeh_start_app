@@ -27,6 +27,7 @@ js = Bundle(
     'js/plugins.js',
     'js/script.js',
     "js/bokeh.js",
+    "js/bokeh-gl.js",
     "js/bokeh-widgets.js",
     'libs/loglevel/dist/loglevel.js',
     filters='jsmin',

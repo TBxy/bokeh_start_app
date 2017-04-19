@@ -51,10 +51,12 @@ import bokeh.client as bkclient
 #from bokeh.resources import INLINE
 #from bokeh.util.string import encode_utf8
 
+from ..utils import bokeh_app_url
+
 
 
 def PLOTS_SUBNAV():
-    return [{"name" : "bokeh App", "url" : url_for('plots.bokeh_plot'),
+    return [{"name" : "bokeh App", "url" : url_for('plots.fourier'),
                 "icon" : None, "has_role" : None, "permission":  "view"},
         {"name" : "Population", "url" : url_for('plots.population_plot'),
                 "has_role" : None, "permission" : "view"},
@@ -66,14 +68,14 @@ def PLOTS_SUBNAV():
                 "has_role" : None, "permission" : "view"}]
 
 
-@blueprint.route('/plot1/')
-def bokeh_plot(title="Default"):
+@blueprint.route('/fourier/')
+def fourier(title="Default"):
     """About page."""
     login_form = LoginForm(request.form)
 
 
     id =  bkutil.session_id.generate_session_id(signed=True)
-    session = bkclient.pull_session(session_id=id, app_path='/fourier_animated')
+    session = bkclient.pull_session(session_id=id, url=bokeh_app_url('fourier_animated'))
     print ("Session info:")
     #print (session.request_server_info())
     #print (session.document.to_json())
@@ -86,7 +88,7 @@ def bokeh_plot(title="Default"):
            </div>
      """.format(F=bkembed.autoload_server(model=None,
                          session_id=session.id,
-                         app_path="/fourier_animated"))
+                         url=bokeh_app_url('fourier_animated')))
 
      #""".format(F=bkembed.autoload_server(model=None,
      #                    session_id=session.id,
@@ -113,7 +115,7 @@ def population_plot(title="Default"):
     """About page."""
     login_form = LoginForm(request.form)
     id =  bkutil.session_id.generate_session_id(signed=True)
-    session = bkclient.pull_session(session_id=id, app_path='/population')
+    session = bkclient.pull_session(session_id=id, url=bokeh_app_url('population'))
     print ("Session info:")
     #print (session.request_server_info())
     print ("Session id is: {}".format(session.id))
@@ -125,7 +127,7 @@ def population_plot(title="Default"):
            </div>
      """.format(F=bkembed.autoload_server(model=None,
                          session_id=session.id,
-                         app_path="/population"))
+                         url=bokeh_app_url('population')))
 
     plot = {}
     plot["plot1"] = html
@@ -138,7 +140,7 @@ def population_class_plot(title="Default",year=0):
     """About page."""
     form = LoginForm(request.form)
     id =  bkutil.session_id.generate_session_id(signed=True)
-    session = bkclient.pull_session(session_id=id, app_path='/population_class')
+    session = bkclient.pull_session(session_id=id, url=bokeh_app_url('population_class'))
     print ("Session info:")
     #print (session.request_server_info())
     print ("Session id is: {}".format(session.id))
@@ -157,7 +159,7 @@ def population_class_plot(title="Default",year=0):
            </div>
      """.format(F=bkembed.autoload_server(model=None,
                          session_id=session.id,
-                         app_path="/population-class"))
+                         url=bokeh_app_url('population_class')))
 
     plot = {}
     plot["plot1"] = html
@@ -185,7 +187,7 @@ def function_plotter(title="Default",func="sin(x)"):
         return redirect(url_for('plots.function_plotter')+func)
     app_name = 'function_plotter'
     id =  bkutil.session_id.generate_session_id(signed=True)
-    session = bkclient.pull_session(session_id=id, app_path='/'+app_name)
+    session = bkclient.pull_session(session_id=id, url=bokeh_app_url(app_name))
     print ("Session id is: {}".format(session.id))
     model =session.document.get_model_by_name('bk-function-plotter')
     print ("Model bk-function-plotter")
@@ -196,7 +198,7 @@ def function_plotter(title="Default",func="sin(x)"):
            </div>
      """.format(F=bkembed.autoload_server(model=None,
                          session_id=session.id,
-                         app_path="/"+app_name))
+                         url=bokeh_app_url(app_name)))
 
     plot = {}
     plot["plot1"] = html

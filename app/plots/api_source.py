@@ -11,13 +11,14 @@ import bokeh.charts as bkcharts
 import bokeh.resources as bkres
 import bokeh as bk
 
+from flask import request
 
 class API_Source_Plot():
     """A simple plot which uses a server as source."""
 
-    def __init__(self, title="Sine Plot", data_url="http://localhost:5000/api/v1/example" , interval=0, plot="line"):
+    def __init__(self, title="Sine Plot", data_url=None , interval=0, plot="line"):
         """Create instance."""
-        self.data_url = data_url
+        self.data_url = request.url_root + "api/v1/example" if not data_url else data_url
         self.title = title
         self.interval = interval
         self.plot = plot

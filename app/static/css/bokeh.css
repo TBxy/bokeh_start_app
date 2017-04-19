@@ -249,7 +249,8 @@
 .bk-root .bk-button-bar-list .bk-toolbar-button:hover .bk-tip {
   z-index: 100;
   white-space: nowrap;
-  background-color: #fff;
+  background-color: white;
+  color: black;
   opacity: 0.95;
   border: #e5e5e5 solid 1px;
   display: inline-block;
@@ -346,6 +347,7 @@
 .bk-root .bk-toolbar-above .bk-button-bar .bk-button-bar-list[type='help'] .bk-toolbar-button .bk-tip,
 .bk-root .bk-toolbar-below .bk-button-bar .bk-button-bar-list[type='help'] .bk-toolbar-button .bk-tip {
   float: right;
+  color: #333;
 }
 .bk-root .bk-toolbar-left,
 .bk-root .bk-toolbar-right {

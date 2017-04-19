@@ -7,6 +7,7 @@ from bokeh.models import (ColumnDataSource, Line)
 from bokeh.core.properties import Enum, Int, Instance, String, Float
 import re
 
+# copy this function manually to bokeh/plotting
 class FunctionPlotter(Figure):
     __view_model__ = "Plot"
     __subtype__ = "FunctionPlotter"

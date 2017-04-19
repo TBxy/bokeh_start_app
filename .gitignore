@@ -66,6 +66,9 @@ app/static/fonts/
 app/static/js/bokeh-api.js
 app/static/js/bokeh-api.js.map
 app/static/js/bokeh-api.min.js
+app/static/js/bokeh-gl.js
+app/static/js/bokeh-gl.js.map
+app/static/js/bokeh-gl.min.js
 app/static/js/bokeh-widgets.js
 app/static/js/bokeh-widgets.js.map
 app/static/js/bokeh-widgets.min.js

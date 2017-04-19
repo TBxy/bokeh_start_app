@@ -126,6 +126,7 @@ if [ $INSTALL_REQ -gt 0 ]; then
     cp venv/lib/python2.7/site-packages/bokeh/server/static/css/* app/static/css/
     cp venv/lib/python2.7/site-packages/bokeh/server/static/js/* app/static/js/
 
+    #cp app/bokeh_app/function_plotter/function_plotter.py venv/lib/python2.7/site-packages/bokeh/plotting
     echo "copy fonts to static folder"
     mkdir -p app/static/fonts/roboto/
     cp -R -u  app/static/libs/materialize/fonts/roboto/ app/static/fonts/
