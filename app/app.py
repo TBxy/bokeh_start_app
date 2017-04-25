@@ -45,6 +45,10 @@ def register_extensions(app):
     #flask_admin.add_view(ModelView(user.models.UserRoles, db.session))
     flask_admin.add_view(admin.views.PermissionsAdmin(user.models.Permissions, db.session))
     flask_admin.add_link(MenuLink(name='Back Home', url='/'))
+
+
+    #assets.url_expire = True
+
     return None
 
 

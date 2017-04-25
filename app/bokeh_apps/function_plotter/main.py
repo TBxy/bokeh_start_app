@@ -11,6 +11,15 @@ from function_plotter import FunctionPlotter
 #test = imp.load_source("function_plotter", "/home/tobias/git/bokeh_start_app/bokeh_start_app/bokeh_apps/function_plotter/function_plotter.py")
 #print(test)
 
-p = FunctionPlotter(name='bk-function-plotter')
-curdoc().add_root(p)
+fp = FunctionPlotter(name='bk-function-plotter')
+
+args = curdoc().session_context.request.arguments
+print(args)
+if 'f' in args:
+    fp.change_function(args['f'][0])
+
+curdoc().add_root(fp)
 curdoc().title = "Function plotter"
+#curdoc().session_context['fp'] = fp
+# set a new single key/value
+#curdoc().template_variables["user_id"] = "test"

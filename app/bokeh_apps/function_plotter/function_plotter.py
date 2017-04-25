@@ -10,7 +10,9 @@ import re
 # copy this function manually to bokeh/plotting
 class FunctionPlotter(Figure):
     __view_model__ = "Plot"
-    __subtype__ = "FunctionPlotter"
+    #__subtype__ = "FunctionPlotter"
+    __subtype__ = "FunctionPlotter" # needs to be in bokeh.plotting
+
 
     source = Instance(ColumnDataSource)
     function = String(default="")
@@ -20,9 +22,9 @@ class FunctionPlotter(Figure):
 
     def __init__(self, **kwargs):
         super(self.__class__, self).__init__(**kwargs)
-
         self.source = ColumnDataSource(data={'x':[],'y':[]})
         self.update()
+        #self.__class__ = Figure
         #self.line(x='x',y='y',source=self.source)
 
 
@@ -46,6 +48,8 @@ class FunctionPlotter(Figure):
         else:
             print("No update, function empty!")
 
+    def plot(self):
+        return super(self.__class__, self)
 
 
     def __replacements(self):
@@ -81,6 +85,10 @@ class FunctionPlotter(Figure):
             string = string.replace(old, new)
 
         def func(x):
-            return eval(string)
+            try:
+                return eval(string)
+            except:
+                print("Evaluation of '{}' did not work.".format(string))
+                return eval("x")
 
         return func

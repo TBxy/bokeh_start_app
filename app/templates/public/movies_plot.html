@@ -4,20 +4,15 @@
 {% block content %}
 <div class="body-content">
     <div class="row">
-      <h4>Population Plot</h4>
-      <p> This example shows how to update a plot with informations over an ajax call.
-          Each select call an api call in order to change a parameter source in the bokeh app. The bokeh app updates the plot as soon the parameter source changes (in this case year and location).
-          </p>
-
-
+      <h4>Movies Plot</h4>
   <!-- Plot Settings Trigger -->
   <div>
-      <h6><a class="right-align" href="#population-settings">Plot Settings</a></h6>
+      <h6><a class="right-align" href="#movies-settings">Plot Settings</a></h6>
   </div>
 
   <!-- Modal Structure, the style is a fix for a select issue -->
   <!-- https://github.com/Dogfalo/materialize/issues/2557 -->
-  <div id="population-settings" class="modal bottom-sheet" style="overflow-y: visible;">
+  <div id="movies-settings" class="modal bottom-sheet" style="overflow-y: visible;">
     <div class="modal-content">
         <div class="row">
             <div class="input-field col s2">
@@ -44,12 +39,11 @@
   </div>
           
 
-      <div id="bokeh-population-plot">
+      <div id="bokeh-movies-plot">
             {{plot["plot1"] | safe}}
       </div>
       <script type="text/javaScript">
         var session_id = "{{ session_id }}"
-        console.log("[SESSION ID] " + session_id)
       </script>
 
     </div>

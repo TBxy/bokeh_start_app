@@ -21,7 +21,7 @@ in this directory. Navigate to
     http://localhost:8000/widget.html
 
 """
-from __future__ import print_function
+#from __future__ import print_function
 
 from numpy import pi
 
@@ -34,25 +34,23 @@ from bokeh.models import (Plot, DataRange1d, LinearAxis, CategoricalAxis,
                           Legend, ColumnDataSource, Grid, Line,
                           SingleIntervalTicker, Quad, Select, FactorRange)
 from bokeh.sampledata.population import load_population
-
-#document = Document()
-
-#session = push_session(document)
-
+from bokeh.server.events import TitleChangedEvent
 
 
 
 df = load_population()
 revision = 2012
 
-year = 2010
-location = "World"
-
 years = [str(x) for x in sorted(df.Year.unique())]
 locations = sorted(df.Location.unique())
 
-source_pyramid = ColumnDataSource(data=dict())
+# parameters for the data
+# this can also be changed from external
+app_param = ColumnDataSource(data={'year':["2015"],
+                                      'location' : ["World"]},
+                                       name="app_param")
 
+source_pyramid = ColumnDataSource(data=dict(), name="source_pyramid")
 def pyramid():
     xdr = DataRange1d()
     ydr = DataRange1d()
@@ -77,8 +75,10 @@ def pyramid():
 
     return plot
 
-source_known = ColumnDataSource(data=dict(x=[], y=[]))
-source_predicted = ColumnDataSource(data=dict(x=[], y=[]))
+source_known = ColumnDataSource(data=dict(x=[], y=[]),
+        name="source_known")
+source_predicted = ColumnDataSource(data=dict(x=[], y=[]),
+        name="source_predicted")
 
 def population():
     xdr = FactorRange(factors=years)
@@ -104,6 +104,8 @@ def population():
     return plot
 
 def update_pyramid():
+    location = app_param.data['location'][0]
+    year = int(app_param.data['year'][0])
     pyramid = df[(df.Location == location) & (df.Year == year)]
 
     male = pyramid[pyramid.Sex == "Male"]
@@ -123,9 +125,9 @@ def update_pyramid():
         male=male_percent,
         female=female_percent,
     )
-    #print (source_pyramid.data)
 
 def update_population():
+    location = app_param.data['location'][0]
     population = df[df.Location == location].groupby(df.Year).Value.sum()
     aligned_revision = revision//10 * 10
 
@@ -140,26 +142,19 @@ def update_data():
     update_pyramid()
 
 def on_year_change(attr, old, new):
-    global year
-    year = int(new)
-    update_data()
+    app_param.data['year'] = [int(new)]
 
 def on_location_change(attr, old, new):
-    global location
-    location = new
-    update_data()
+    app_param.data['location'] = [new]
 
 def plots():
-    #controls = row(children=[year_select, location_select])
-    #layout = column(children=[controls, pyramid(), population()])
     layout = column(children=[pyramid(), population()],sizing_mode="fixed", responsive=False)
-
     return layout
 
 def header():
+    global location_select, year_select
     year_select = Select(title="Year:", value="2010", options=years,width=80,name="year_select")
-    location_select = Select(title="Location:", value="World", options=locations,width=600)
-    print (location_select.name)
+    location_select = Select(title="Location:", value="World", options=locations,width=600,name="location_select")
 
     year_select.on_change('value', on_year_change)
     location_select.on_change('value', on_location_change)
@@ -168,36 +163,25 @@ def header():
     layout = column(children=[controls],sizing_mode="fixed", name="header")
 
     return layout
+
+def update_app_params(attr, old, new):
+    global location_select, year_select
+    location_select.value = new['location'][0]
+    year_select.value = str(new['year'][0])
+    update_data()
+
 plots = plots()
 header = header()
 
 update_data()
-#
-#html = """
-#<html>
-#    <head></head>
-#    <body>
-#       <div id="header" style="height:100">
-#           {H}
-#       </div>
-#       <div id="main">
-#           {P}
-#       </div>
-#    </body>
-#</html>
-#""".format(H=autoload_server(header, session_id=session.id) \
-#          ,P=autoload_server(plots, session_id=session.id))
-#
-#with open("widget.html", "w+") as f:
-    #f.write(html)
 
-#print(__doc__)
+doc = curdoc()
+args = curdoc().session_context.request.arguments
+if 'header' in args:
+    doc.add_root(layout([[header],[plots]]))
+else:
+    doc.add_root(layout([[plots]]))
+doc.add_root(app_param) # needs to be added to the document
+app_param.on_change('data', update_app_params)
 
-#document.add_root(header)
-#document.add_root(plots)
-
-curdoc().add_root(layout([[header],[plots]]))
-curdoc().title = "Population"
-#if __name__ == "__main__":
-    #print("\npress ctrl-C to exit")
-    #session.loop_until_closed()
+doc.title = "Population"

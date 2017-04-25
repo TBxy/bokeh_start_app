@@ -108,8 +108,8 @@ class Population(Row):
         kwargs["children"] = [self.layout()]
         #kwargs["children"] = list()
         #kwargs["children"] = list(self.layout)
-        self.children.append(self.layout)
         super(Population, self).__init__()
+        self.children.append(self.layout())
         #self.layout()
         #super(**kwargs)
 
